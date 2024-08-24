@@ -82,7 +82,9 @@ class _MainScreenState extends State<MainScreen> {
             height: 64,
             width: 64,
             child: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<AuthCubit>().logout();
+              },
               elevation: 1,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
               backgroundColor: Theme.of(context).colorScheme.primary,

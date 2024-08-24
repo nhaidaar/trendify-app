@@ -12,7 +12,7 @@ class LoadingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(9.5),
       decoration: BoxDecoration(
         color: invert
             ? Theme.of(context).colorScheme.background

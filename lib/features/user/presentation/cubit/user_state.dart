@@ -8,3 +8,31 @@ abstract class UserState extends Equatable {
 }
 
 class UserInitial extends UserState {}
+
+class UserLoading extends UserState {}
+
+class UserError extends UserState {
+  final String message;
+  const UserError({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+class UserSuccess extends UserState {}
+
+class EmailExists extends UserState {
+  final bool isEmailExists;
+  const EmailExists({required this.isEmailExists});
+
+  @override
+  List<Object> get props => [isEmailExists];
+}
+
+class UsernameExists extends UserState {
+  final bool isUsernameExists;
+  const UsernameExists({required this.isUsernameExists});
+
+  @override
+  List<Object> get props => [isUsernameExists];
+}

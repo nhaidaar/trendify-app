@@ -23,14 +23,16 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: disabled ? null : onTap,
       child: Opacity(
         opacity: disabled ? 0.4 : 1,
         child: Container(
           width: double.infinity,
           padding: EdgeInsets.all(padding),
           decoration: BoxDecoration(
-            color: invert ? Theme.of(context).colorScheme.background : Theme.of(context).colorScheme.primary,
+            color: invert
+                ? Theme.of(context).colorScheme.background
+                : Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: invert ? Theme.of(context).colorScheme.primary : Colors.transparent,

@@ -10,6 +10,8 @@ import 'package:trendify/main_screen.dart';
 
 import '../../../../common/widgets/loading_button.dart';
 
+final _formKey = GlobalKey<FormState>();
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -20,12 +22,31 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final passwordFocus = FocusNode();
+  bool passwordHidden = true;
+  bool areFieldsEmpty = true;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.addListener(updateFieldState);
+    passwordController.addListener(updateFieldState);
+  }
 
   @override
   void dispose() {
+    emailController.removeListener(updateFieldState);
+    passwordController.removeListener(updateFieldState);
     emailController.dispose();
     passwordController.dispose();
+    passwordFocus.dispose();
     super.dispose();
+  }
+
+  void updateFieldState() {
+    setState(() {
+      areFieldsEmpty = emailController.text.isEmpty || passwordController.text.isEmpty;
+    });
   }
 
   @override
@@ -62,70 +83,80 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              child: ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  const SizedBox(height: 80),
-                  Text(
-                    'Trendify',
-                    style: boldTS.copyWith(fontSize: 42),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 80),
-                  CustomFieldOnly(
-                    hintText: 'Username or email address',
-                    controller: emailController,
-                  ),
-                  const SizedBox(height: 16),
-                  CustomFieldOnly(
-                    hintText: 'Password',
-                    controller: passwordController,
-                    // onTap: () {},
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Forgot password?',
-                    style: semiboldTS,
-                    textAlign: TextAlign.end,
-                  ),
-                  const SizedBox(height: 40),
-                  state is AuthLoading
-                      ? const LoadingButton()
-                      : CustomButton(
-                          title: 'Log in',
-                          onTap: () {
-                            context.read<AuthCubit>().login(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                );
-                          },
-                        ),
-                  const SizedBox(height: 40),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        PageTransition(
-                          child: const RegisterPage(),
-                          type: PageTransitionType.rightToLeft,
-                        ),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Don\'t have account? ',
-                          style: mediumTS,
-                        ),
-                        Text(
-                          'Sign up',
-                          style: semiboldTS.copyWith(
-                              color: Theme.of(context).colorScheme.primary),
-                        ),
-                      ],
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    const SizedBox(height: 80),
+                    Text(
+                      'Trendify',
+                      style: boldTS.copyWith(fontSize: 42),
+                      textAlign: TextAlign.center,
                     ),
-                  )
-                ],
+                    const SizedBox(height: 80),
+                    CustomFieldOnly(
+                      hintText: 'Username or email address',
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    const SizedBox(height: 16),
+                    CustomFieldOnly(
+                      hintText: 'Password',
+                      focusNode: passwordFocus,
+                      controller: passwordController,
+                      isPassword: true,
+                      obscureText: passwordHidden,
+                      onTap: () {
+                        setState(() => passwordHidden = !passwordHidden);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Forgot password?',
+                      style: semiboldTS,
+                      textAlign: TextAlign.end,
+                    ),
+                    const SizedBox(height: 40),
+                    state is AuthLoading
+                        ? const LoadingButton()
+                        : CustomButton(
+                            title: 'Login',
+                            disabled: areFieldsEmpty,
+                            onTap: () {
+                              context.read<AuthCubit>().login(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  );
+                            },
+                          ),
+                    const SizedBox(height: 40),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          PageTransition(
+                            child: const RegisterPage(),
+                            type: PageTransitionType.rightToLeft,
+                          ),
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Don\'t have account? ',
+                            style: mediumTS,
+                          ),
+                          Text(
+                            'Sign up',
+                            style: semiboldTS.copyWith(
+                                color: Theme.of(context).colorScheme.primary),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           );

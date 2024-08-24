@@ -1,19 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:trendify/core/constant.dart';
 
 class CustomField extends StatelessWidget {
   final String fieldTitle;
+  final List<TextInputFormatter>? textInputFormatter;
   final FocusNode? focusNode;
-  final TextInputType? keyboardType;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final bool isPassword;
+  final bool obscureText;
+  final bool enabled;
+  final VoidCallback? onTap;
   final String? hintText;
+  final String? Function(String?)? validator;
+  final AutovalidateMode? autoValidateMode;
   const CustomField({
     super.key,
     required this.fieldTitle,
+    this.textInputFormatter,
     this.focusNode,
-    this.keyboardType,
     this.controller,
+    this.keyboardType,
+    this.isPassword = false,
+    this.obscureText = false,
+    this.enabled = true,
+    this.onTap,
     this.hintText,
+    this.validator,
+    this.autoValidateMode,
   });
 
   @override
@@ -27,10 +42,17 @@ class CustomField extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         CustomFieldOnly(
+          textInputFormatter: textInputFormatter,
           focusNode: focusNode,
-          keyboardType: keyboardType,
           controller: controller,
+          keyboardType: keyboardType,
+          isPassword: isPassword,
+          obscureText: obscureText,
+          enabled: enabled,
+          onTap: onTap,
           hintText: hintText,
+          validator: validator,
+          autoValidateMode: autoValidateMode,
         )
       ],
     );
@@ -38,6 +60,7 @@ class CustomField extends StatelessWidget {
 }
 
 class CustomFieldOnly extends StatelessWidget {
+  final List<TextInputFormatter>? textInputFormatter;
   final FocusNode? focusNode;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
@@ -46,8 +69,11 @@ class CustomFieldOnly extends StatelessWidget {
   final bool enabled;
   final VoidCallback? onTap;
   final String? hintText;
+  final String? Function(String?)? validator;
+  final AutovalidateMode? autoValidateMode;
   const CustomFieldOnly({
     super.key,
+    this.textInputFormatter,
     this.focusNode,
     this.controller,
     this.keyboardType,
@@ -56,11 +82,14 @@ class CustomFieldOnly extends StatelessWidget {
     this.enabled = true,
     this.onTap,
     this.hintText,
+    this.validator,
+    this.autoValidateMode,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: textInputFormatter,
       focusNode: focusNode,
       controller: controller,
       keyboardType: keyboardType,
@@ -75,7 +104,9 @@ class CustomFieldOnly extends StatelessWidget {
                 child: Ink(
                   child: ImageIcon(
                     AssetImage(
-                      !obscureText ? 'assets/icons/password_visible.png' : 'assets/icons/password_invisible.png',
+                      !obscureText
+                          ? 'assets/icons/password_visible.png'
+                          : 'assets/icons/password_invisible.png',
                     ),
                   ),
                 ),
@@ -87,6 +118,8 @@ class CustomFieldOnly extends StatelessWidget {
         border: defaultInputBorder,
         enabledBorder: defaultInputBorder,
       ),
+      validator: validator,
+      autovalidateMode: autoValidateMode,
     );
   }
 }
