@@ -5,6 +5,7 @@ import 'package:trendify/features/auth/presentation/cubit/auth_cubit.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/home/presentation/pages/home_page.dart';
 import 'features/search/presentation/pages/search_page.dart';
+import 'features/user/presentation/pages/profile_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -29,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
       NavModel(page: const HomePage(), navKey: homeNavKey),
       NavModel(page: const SearchPage(), navKey: searchNavKey),
       NavModel(page: const HomePage(), navKey: notificationNavKey),
-      NavModel(page: const SearchPage(), navKey: profileNavKey),
+      NavModel(page: const ProfilePage(), navKey: profileNavKey),
     ];
   }
 
