@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:trendify/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:trendify/features/notification/presentation/pages/notification_page.dart';
+import 'package:trendify/features/post/presentation/pages/create_post_page.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/home/presentation/pages/home_page.dart';
 import 'features/search/presentation/pages/search_page.dart';
@@ -85,7 +86,13 @@ class _MainScreenState extends State<MainScreen> {
             width: 64,
             child: FloatingActionButton(
               onPressed: () {
-                context.read<AuthCubit>().logout();
+                // context.read<AuthCubit>().logout();
+                Navigator.of(context).push(
+                  PageTransition(
+                    child: const CreatePostPage(),
+                    type: PageTransitionType.rightToLeft,
+                  ),
+                );
               },
               elevation: 1,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),

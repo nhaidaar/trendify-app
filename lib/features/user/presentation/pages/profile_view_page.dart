@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trendify/core/constant.dart';
 
 class ProfileViewPage extends StatelessWidget {
   const ProfileViewPage({super.key});
@@ -11,8 +10,6 @@ class ProfileViewPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 70,
-          title: Text('Naufal Haidar', style: semiboldTS),
-          centerTitle: true,
         ),
         body: Column(
           children: [
