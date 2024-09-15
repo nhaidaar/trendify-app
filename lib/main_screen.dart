@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:trendify/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:trendify/features/notification/presentation/pages/notification_page.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/home/presentation/pages/home_page.dart';
 import 'features/search/presentation/pages/search_page.dart';
@@ -29,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
     navigation = [
       NavModel(page: const HomePage(), navKey: homeNavKey),
       NavModel(page: const SearchPage(), navKey: searchNavKey),
-      NavModel(page: const HomePage(), navKey: notificationNavKey),
+      NavModel(page: const NotificationPage(), navKey: notificationNavKey),
       NavModel(page: const ProfilePage(), navKey: profileNavKey),
     ];
   }
