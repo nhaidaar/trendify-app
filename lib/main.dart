@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:trendify/splash_screen.dart';
 
 import 'core/theme.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
@@ -57,8 +58,10 @@ class MyApp extends StatelessWidget {
             builder: (context, state) {
               if (state is Authenticated) {
                 return const MainScreen();
+              } else if (state is Unauthenticated) {
+                return const LoginPage();
               }
-              return const LoginPage();
+              return const SplashScreen();
             },
           ),
         ),

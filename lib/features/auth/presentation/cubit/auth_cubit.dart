@@ -8,13 +8,16 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthUsecase _authUsecase;
-  AuthCubit(this._authUsecase) : super(Unauthenticated());
+  AuthCubit(this._authUsecase) : super(AuthInitial());
 
   Future<void> checkSession() async {
     try {
       final sessionExists = await _authUsecase.checkSession();
       sessionExists.fold(
-        (error) => emit(AuthError(message: error.message.toString())),
+        (error) {
+          emit(AuthError(message: error.message.toString()));
+          emit(Unauthenticated());
+        },
         (success) => emit(Authenticated()),
       );
     } catch (_) {
