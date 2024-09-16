@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:trendify/features/post/data/models/post_model.dart';
 import '../../../../core/constant.dart';
 
 class PostCard extends StatefulWidget {
-  final String name, time, post;
-  final int like, reply;
+  final PostModel model;
   const PostCard({
     super.key,
-    required this.name,
-    required this.time,
-    required this.post,
-    required this.like,
-    required this.reply,
+    required this.model,
   });
 
   @override
@@ -43,12 +39,12 @@ class _PostCardState extends State<PostCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.name,
+                    widget.model.uid.toString(),
                     style: semiboldTS.copyWith(fontSize: 15),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    widget.time,
+                    widget.model.createdAt.toString(),
                     style: regularTS.copyWith(fontSize: 12),
                   )
                 ],
@@ -57,7 +53,7 @@ class _PostCardState extends State<PostCard> {
           ),
           const SizedBox(height: 16),
           Text(
-            widget.post,
+            widget.model.text.toString(),
             style: regularTS,
           ),
           const SizedBox(height: 16),
@@ -75,7 +71,9 @@ class _PostCardState extends State<PostCard> {
               ),
               const SizedBox(width: 8),
               Text(
-                isLiked ? (widget.like + 1).toString() : widget.like.toString(),
+                isLiked
+                    ? ((widget.model.likes ?? []).length + 1).toString()
+                    : (widget.model.likes ?? []).length.toString(),
                 style: mediumTS,
               ),
               const SizedBox(width: 24),
@@ -88,7 +86,7 @@ class _PostCardState extends State<PostCard> {
               ),
               const SizedBox(width: 8),
               Text(
-                widget.reply.toString(),
+                (widget.model.comments ?? []).length.toString(),
                 style: mediumTS,
               ),
               const SizedBox(width: 16),
