@@ -21,6 +21,14 @@ class UserError extends UserState {
 
 class UserSuccess extends UserState {}
 
+class UserFetched extends UserState {
+  final UserModel userModel;
+  const UserFetched({required this.userModel});
+
+  @override
+  List<Object> get props => [userModel];
+}
+
 class EmailExists extends UserState {
   final bool isEmailExists;
   const EmailExists({required this.isEmailExists});

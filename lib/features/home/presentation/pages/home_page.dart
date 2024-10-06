@@ -1,16 +1,19 @@
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trendify/features/home/presentation/cubit/home_cubit.dart';
+
+import '../../../post/presentation/cubit/post_cubit.dart';
 import '../../../../core/constant.dart';
-import '../widgets/post_card.dart';
+import 'home_discover.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final User user;
+  const HomePage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => BlocProvider.of<HomeCubit>(context)..fetchAllPosts(),
+      create: (context) => BlocProvider.of<PostCubit>(context)..fetchAllPosts(isRefresh: false),
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -41,52 +44,7 @@ class HomePage extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        return RefreshIndicator(
-                          onRefresh: () async {
-                            await context.read<HomeCubit>().fetchAllPosts();
-                          },
-                          child: ListView(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            children: [
-                              if (state is HomeLoading)
-                                const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              else if (state is HomeSuccess && state.posts.isNotEmpty)
-                                ...state.posts.map((post) => PostCard(model: post))
-                              else
-                                Center(
-                                  child: Text(
-                                    'Nothing here, maybe there\'s an error?',
-                                    style: mediumTS,
-                                  ),
-                                ),
-                            ],
-                          ),
-                        );
-                        // if (state is HomeLoading) {
-                        //   return const Center(
-                        //     child: CircularProgressIndicator(),
-                        //   );
-                        // }
-                        // if (state is HomeSuccess && state.posts.isNotEmpty) {
-                        //   return ListView(
-                        //     padding: const EdgeInsets.symmetric(vertical: 16),
-                        //     children: state.posts.map((post) {
-                        //       return PostCard(model: post);
-                        //     }).toList(),
-                        //   );
-                        // }
-                        // return Center(
-                        //   child: Text(
-                        //     'Nothing here, maybe there\'s an error?',
-                        //     style: mediumTS,
-                        //   ),
-                        // );
-                      },
-                    ),
+                    HomeDiscover(user: user),
                     Container(),
                   ],
                 ),

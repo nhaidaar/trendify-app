@@ -1,3 +1,5 @@
+import '../../../user/data/models/user_model.dart';
+
 class PostModel {
   final String? postId;
   final String? uid;
@@ -64,11 +66,18 @@ class PostModel {
       uid: map['uid'] ?? '',
       repliedTo: map['repliedTo'] ?? '',
       text: map['text'] ?? '',
-      createdAt: map['createdAt'] ?? DateTime.now(),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
       images: List<String>.from(map['images']),
       likes: List<String>.from(map['likes']),
       comments: List<String>.from(map['comments']),
       reposts: List<String>.from(map['reposts']),
     );
   }
+}
+
+class PostWithUser {
+  final PostModel post;
+  final UserModel? user;
+
+  PostWithUser({required this.post, this.user});
 }

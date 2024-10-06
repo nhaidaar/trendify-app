@@ -57,7 +57,7 @@ class _CreateUsernamePageState extends State<CreateUsernamePage> {
               if (state is Authenticated) {
                 Navigator.of(context).push(
                   PageTransition(
-                    child: const MainScreen(),
+                    child: MainScreen(user: state.user),
                     type: PageTransitionType.fade,
                   ),
                 );

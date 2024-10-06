@@ -1,3 +1,4 @@
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
@@ -10,7 +11,8 @@ import 'features/search/presentation/pages/search_page.dart';
 import 'features/user/presentation/pages/profile_page.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final User user;
+  const MainScreen({super.key, required this.user});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -29,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     navigation = [
-      NavModel(page: const HomePage(), navKey: homeNavKey),
+      NavModel(page: HomePage(user: widget.user), navKey: homeNavKey),
       NavModel(page: const SearchPage(), navKey: searchNavKey),
       NavModel(page: const NotificationPage(), navKey: notificationNavKey),
       NavModel(page: const ProfilePage(), navKey: profileNavKey),

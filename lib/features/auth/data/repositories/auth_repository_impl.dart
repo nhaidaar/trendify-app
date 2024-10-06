@@ -46,8 +46,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       final account = await Databases(client).createDocument(
-        databaseId: dotenv.get("DATABASE_ID", fallback: "66c07fec002edb285af6"),
-        collectionId: dotenv.get("COLLECTION_USERS_ID", fallback: "66c6fafc003003a09f27"),
+        databaseId: dotenv.get("DATABASE_ID"),
+        collectionId: dotenv.get("COLLECTION_USERS_ID"),
         documentId: userModel.uid.toString(),
         data: userModel.toMap(),
       );
@@ -61,8 +61,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<String?> findEmailByUsername({required String username}) async {
     try {
       final response = await Databases(client).listDocuments(
-        databaseId: dotenv.get("DATABASE_ID", fallback: "66c07fec002edb285af6"),
-        collectionId: dotenv.get("COLLECTION_USERS_ID", fallback: "66c6fafc003003a09f27"),
+        databaseId: dotenv.get("DATABASE_ID"),
+        collectionId: dotenv.get("COLLECTION_USERS_ID"),
         queries: [Query.equal("username", username)],
       );
       if (response.documents.isNotEmpty) {

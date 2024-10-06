@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
           if (state is Authenticated) {
             Navigator.of(context).pushAndRemoveUntil(
               PageTransition(
-                child: const MainScreen(),
+                child: MainScreen(user: state.user),
                 type: PageTransitionType.fade,
               ),
               (route) => false,

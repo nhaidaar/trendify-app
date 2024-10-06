@@ -1,3 +1,4 @@
+import 'package:appwrite/models.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:trendify/features/auth/domain/usecases/auth_usecase.dart';
@@ -18,7 +19,7 @@ class AuthCubit extends Cubit<AuthState> {
           emit(AuthError(message: error.message.toString()));
           emit(Unauthenticated());
         },
-        (success) => emit(Authenticated()),
+        (success) => emit(Authenticated(user: success)),
       );
     } catch (_) {
       rethrow;
@@ -74,7 +75,13 @@ class AuthCubit extends Cubit<AuthState> {
 
       session.fold(
         (error) => emit(AuthError(message: error.message.toString())),
-        (success) => emit(Authenticated()),
+        (success) async {
+          final user = await _authUsecase.checkSession();
+          user.fold(
+            (l) => emit(AuthError(message: l.message.toString())),
+            (r) => emit(Authenticated(user: r)),
+          );
+        },
       );
     } catch (_) {
       rethrow;
