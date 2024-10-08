@@ -17,7 +17,7 @@ class PostButton extends StatelessWidget {
       AssetImage(icon),
       size: size,
       color: !active
-          ? Theme.of(context).colorScheme.onBackground
+          ? Theme.of(context).colorScheme.primaryContainer
           : Theme.of(context).colorScheme.primary,
     );
   }

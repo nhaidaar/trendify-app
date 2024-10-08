@@ -10,15 +10,16 @@ class CustomButton extends StatelessWidget {
   final bool disabled;
   final VoidCallback? onTap;
   final Color? buttonColor;
-  const CustomButton(
-      {super.key,
-      required this.title,
-      this.titleSize = 16,
-      this.padding = 16,
-      this.onTap,
-      this.invert = false,
-      this.disabled = false,
-      this.buttonColor});
+  const CustomButton({
+    super.key,
+    required this.title,
+    this.titleSize = 16,
+    this.padding = 16,
+    this.onTap,
+    this.invert = false,
+    this.disabled = false,
+    this.buttonColor,
+  });
 
   @override
   Widget build(BuildContext context) {

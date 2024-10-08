@@ -9,6 +9,8 @@ abstract class PostRepository {
 
   Future<UserModel?> fetchAuthor({required String uid});
 
+  Future<Either<AppwriteException, void>> makePost({required PostModel post});
+
   Future<Either<AppwriteException, void>> likePost({
     required String postId,
     required String uid,

@@ -91,7 +91,7 @@ class _MainScreenState extends State<MainScreen> {
                 // context.read<AuthCubit>().logout();
                 Navigator.of(context).push(
                   PageTransition(
-                    child: const CreatePostPage(),
+                    child: CreatePostPage(user: widget.user),
                     type: PageTransitionType.rightToLeft,
                   ),
                 );

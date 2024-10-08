@@ -18,7 +18,10 @@ class PostRepositoryImpl implements PostRepository {
       final response = await Databases(client).listDocuments(
         databaseId: dotenv.get("DATABASE_ID"),
         collectionId: dotenv.get("COLLECTION_TWEETS_ID"),
-        queries: [Query.isNull("repliedTo")],
+        queries: [
+          Query.isNull("repliedTo"),
+          Query.orderDesc("createdAt"),
+        ],
       );
 
       List<PostWithUser> posts = await Future.wait(response.documents.map(
@@ -26,18 +29,21 @@ class PostRepositoryImpl implements PostRepository {
           // JSON to Model
           final post = PostModel.fromMap(rawPost.data);
 
-          // Get All Comments
-          final fetchComments = await Databases(client).listDocuments(
+          // Get All Replies
+          final fetchReplies = await Databases(client).listDocuments(
             databaseId: dotenv.get("DATABASE_ID"),
             collectionId: dotenv.get("COLLECTION_TWEETS_ID"),
-            queries: [Query.equal("repliedTo", post.postId)],
+            queries: [
+              Query.equal("repliedTo", post.postId),
+              Query.orderDesc("createdAt"),
+            ],
           );
-          final comments = fetchComments.documents.map((doc) {
+          final replies = fetchReplies.documents.map((doc) {
             final postOfComment = PostModel.fromMap(doc.data);
             return postOfComment.postId.toString();
           }).toList();
           final newPost = post.copyWith(
-            comments: comments,
+            replies: replies,
           );
 
           // Fetch Author Details
@@ -49,6 +55,22 @@ class PostRepositoryImpl implements PostRepository {
       ));
 
       return Right(posts);
+    } on AppwriteException catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<AppwriteException, void>> makePost({required PostModel post}) async {
+    try {
+      final request = await Databases(client).createDocument(
+        databaseId: dotenv.get("DATABASE_ID"),
+        collectionId: dotenv.get("COLLECTION_TWEETS_ID"),
+        documentId: ID.unique(),
+        data: post.toMap(),
+      );
+
+      return Right(request);
     } on AppwriteException catch (e) {
       return Left(e);
     }

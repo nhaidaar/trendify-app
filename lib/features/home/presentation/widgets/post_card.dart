@@ -125,13 +125,13 @@ class _PostCardState extends State<PostCard> {
               GestureDetector(
                 onTap: () {},
                 child: const PostButton(
-                  icon: 'assets/icons/messages.png',
+                  icon: 'assets/icons/reply.png',
                   active: false,
                 ),
               ),
               const SizedBox(width: 8),
               Text(
-                (widget.model.post.comments ?? []).length.toString(),
+                (widget.model.post.replies ?? []).length.toString(),
                 style: mediumTS,
               ),
             ],

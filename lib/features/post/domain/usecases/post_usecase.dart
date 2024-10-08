@@ -17,6 +17,10 @@ class PostUsecase {
     return _postRepository.fetchAuthor(uid: uid);
   }
 
+  Future<Either<AppwriteException, void>> makePost({required PostModel post}) async {
+    return _postRepository.makePost(post: post);
+  }
+
   Future<Either<AppwriteException, void>> likePost({
     required String postId,
     required String uid,

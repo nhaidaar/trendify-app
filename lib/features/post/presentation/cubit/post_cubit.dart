@@ -28,6 +28,20 @@ class PostCubit extends Cubit<PostState> {
     }
   }
 
+  Future<void> makePost({required PostModel post}) async {
+    try {
+      emit(PostLoading());
+      final response = await _postUsecase.makePost(post: post);
+      response.fold(
+        (error) => emit(PostFailed(message: error.message.toString())),
+        (success) => emit(PostSuccess()),
+      );
+      fetchAllPosts(isRefresh: false);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> likePost({required String postId, required String uid}) async {
     try {
       await _postUsecase.likePost(postId: postId, uid: uid);

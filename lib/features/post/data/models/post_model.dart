@@ -8,7 +8,7 @@ class PostModel {
   final DateTime? createdAt;
   final List<String>? images;
   final List<String>? likes;
-  final List<String>? comments;
+  final List<String>? replies;
   final List<String>? reposts;
 
   const PostModel({
@@ -19,7 +19,7 @@ class PostModel {
     this.createdAt,
     this.images,
     this.likes,
-    this.comments,
+    this.replies,
     this.reposts,
   });
 
@@ -31,7 +31,7 @@ class PostModel {
     DateTime? createdAt,
     List<String>? images,
     List<String>? likes,
-    List<String>? comments,
+    List<String>? replies,
     List<String>? reposts,
   }) {
     return PostModel(
@@ -42,7 +42,7 @@ class PostModel {
       createdAt: createdAt ?? this.createdAt,
       images: images ?? this.images,
       likes: likes ?? this.likes,
-      comments: comments ?? this.comments,
+      replies: replies ?? this.replies,
       reposts: reposts ?? this.reposts,
     );
   }
@@ -52,10 +52,9 @@ class PostModel {
       'uid': uid,
       'repliedTo': repliedTo,
       'text': text,
-      'createdAt': createdAt,
+      'createdAt': DateTime.now().millisecondsSinceEpoch,
       'images': images,
       'likes': likes,
-      'comments': comments,
       'reposts': reposts,
     };
   }
@@ -67,10 +66,10 @@ class PostModel {
       repliedTo: map['repliedTo'] ?? '',
       text: map['text'] ?? '',
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
-      images: List<String>.from(map['images']),
-      likes: List<String>.from(map['likes']),
-      comments: List<String>.from(map['comments']),
-      reposts: List<String>.from(map['reposts']),
+      images: List<String>.from(map['images'] ?? []),
+      likes: List<String>.from(map['likes'] ?? []),
+      replies: List<String>.from(map['replies'] ?? []),
+      reposts: List<String>.from(map['reposts'] ?? []),
     );
   }
 }
